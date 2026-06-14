@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System;
 using Client.MirSounds;
 using System.Windows.Forms;
@@ -73,7 +73,7 @@ namespace Client
 
         //Network
         public static bool UseConfig = false;
-        public static string IPAddress = "47.95.206.70";
+        public static string IPAddress = "82.157.178.112";
         public static int Port = 7000;
         public const int TimeOut = 5000;
 
