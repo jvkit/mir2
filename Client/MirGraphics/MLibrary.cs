@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Threading;
@@ -475,7 +475,7 @@ namespace Client.MirGraphics
     public sealed class MLibrary
     {
         private const string Extention = ".Lib";
-        public const int LibVersion = 2;
+        public const int LibVersion = 3;
 
         private readonly string _fileName;
 
