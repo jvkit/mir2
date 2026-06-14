@@ -505,25 +505,42 @@ namespace Client.MirGraphics
                 _fStream = new FileStream(_fileName, FileMode.Open, FileAccess.Read);
                 _reader = new BinaryReader(_fStream);
                 CurrentVersion = _reader.ReadInt32();
-                if (CurrentVersion != LibVersion)
+                if (CurrentVersion != 2 && CurrentVersion != 3)
                 {
-                    //cant use a directx based error popup cause it could be the lib file containing the interface is invalid :(
-                    System.Windows.Forms.MessageBox.Show("Wrong version, expecting lib version: " + LibVersion.ToString() + " found version: " + CurrentVersion.ToString() + ".", _fileName, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error, System.Windows.Forms.MessageBoxDefaultButton.Button1);
-                    System.Windows.Forms.Application.Exit();
+                    LogBadLib($"Wrong version: {CurrentVersion}");
+                    _initialized = false;
                     return;
                 }
                 _count = _reader.ReadInt32();
+                if (_count < 0 || _count > 1000000)
+                {
+                    LogBadLib($"Invalid count: {_count}");
+                    _initialized = false;
+                    return;
+                }
                 _images = new MImage[_count];
                 _indexList = new int[_count];
 
                 for (int i = 0; i < _count; i++)
                     _indexList[i] = _reader.ReadInt32();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 _initialized = false;
-                throw;
+                LogBadLib($"Exception: {ex.GetType().Name}: {ex.Message}");
             }
+        }
+
+        private void LogBadLib(string reason)
+        {
+            try
+            {
+                string logDir = @".\Logs\";
+                if (!Directory.Exists(logDir))
+                    Directory.CreateDirectory(logDir);
+                File.AppendAllText(Path.Combine(logDir, "BadLibs.log"), $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {_fileName}: {reason}{Environment.NewLine}");
+            }
+            catch { }
         }
 
         private bool CheckImage(int index)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Security.Cryptography;
@@ -186,6 +186,14 @@ namespace Client.MirScenes
         }
         private void ClientVersion(S.ClientVersion p)
         {
+            try
+            {
+                string logDir = @".\Logs\";
+                if (!Directory.Exists(logDir)) Directory.CreateDirectory(logDir);
+                File.AppendAllText(Path.Combine(logDir, "LoginVersion.log"), $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] ClientVersion.Result={p.Result}{Environment.NewLine}");
+            }
+            catch { }
+
             switch (p.Result)
             {
                 case 0:
