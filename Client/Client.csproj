@@ -73,6 +73,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>MIR2.ICO</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>9E5B013900C639479A5BE07D94C6D9183B921CCA</ManifestCertificateThumbprint>
